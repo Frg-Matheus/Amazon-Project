@@ -57,7 +57,7 @@ function animate() {
 
     //rotação
     if (earth) {
-        earth.rotation.y += 0.003; //velocidade de rotação
+        earth.rotation.y += 0.001; //velocidade de rotação
     }
 
     //atualiza o mouse, permitindo o controle de órbita
