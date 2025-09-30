@@ -55,20 +55,22 @@ controls.enableDamping = true;
 function animate() {
     requestAnimationFrame(animate); 
 
-    //rotação
-    if (earth) {
-        earth.rotation.y += 0.001; //velocidade de rotação
+    if (earth && isAnimating) {
+        earth.rotation.y += 0.001;
     }
 
-    //atualiza o mouse, permitindo o controle de órbita
     controls.update(); 
-
-    //renderiza a cena a partir da perspectiva da câmera
     renderer.render(scene, camera);
 }
 
+
 animate();
 
+let isAnimating = true; // controle da rotação
+
+function stopAnimation() {
+    isAnimating = false;
+}
 //adaptar a cena ao redimensionar a tela
 
 window.addEventListener('resize', () => {
@@ -77,24 +79,23 @@ window.addEventListener('resize', () => {
     renderer.setSize(window.innerWidth, window.innerHeight);
 });
 
-
 // Função para focar na América do Sul
 function focusOnSouthAmerica() {
     if (earth) {
-        // Coordenadas aproximadas para a América do Sul
-        const southAmericaPosition = new THREE.Vector3(-2, -1, 0); // Ajuste conforme necessário
+        // Coordenadas aproximadas para a América do Sul (ajuste conforme necessário)
+        const targetPosition = new THREE.Vector3(-3, -2, 6); // Exemplo ajustado
 
-        // Animação para focar na América do Sul
-        const initialPosition = camera.position.clone();
-        const duration = 20; // Duração da animação em milissegundos
+        const startPosition = camera.position.clone();
+        const duration = 1000; // 1 segundo
         const startTime = performance.now();
 
         function animateFocus() {
             const elapsed = performance.now() - startTime;
             const progress = Math.min(elapsed / duration, 1);
 
-            // Interpolação suave entre a posição inicial e a posição alvo
-            camera.position.lerpVectors(initialPosition, southAmericaPosition, progress);
+            // Interpolação suave
+            camera.position.copy(startPosition.clone().lerp(targetPosition, progress));
+            camera.lookAt(earth.position); // Garante que a câmera olhe para o centro da Terra
 
             if (progress < 1) {
                 requestAnimationFrame(animateFocus);
@@ -105,4 +106,8 @@ function focusOnSouthAmerica() {
     }
 }
 // Adicionar o evento de clique ao botão
-document.getElementById('startButton').addEventListener('click', focusOnSouthAmerica);
+
+document.getElementById('startButton').addEventListener('click', () => {
+    stopAnimation();
+    focusOnSouthAmerica();
+});
