@@ -76,3 +76,33 @@ window.addEventListener('resize', () => {
     camera.updateProjectionMatrix();
     renderer.setSize(window.innerWidth, window.innerHeight);
 });
+
+
+// Função para focar na América do Sul
+function focusOnSouthAmerica() {
+    if (earth) {
+        // Coordenadas aproximadas para a América do Sul
+        const southAmericaPosition = new THREE.Vector3(-2, -1, 0); // Ajuste conforme necessário
+
+        // Animação para focar na América do Sul
+        const initialPosition = camera.position.clone();
+        const duration = 20; // Duração da animação em milissegundos
+        const startTime = performance.now();
+
+        function animateFocus() {
+            const elapsed = performance.now() - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+
+            // Interpolação suave entre a posição inicial e a posição alvo
+            camera.position.lerpVectors(initialPosition, southAmericaPosition, progress);
+
+            if (progress < 1) {
+                requestAnimationFrame(animateFocus);
+            }
+        }
+
+        animateFocus();
+    }
+}
+// Adicionar o evento de clique ao botão
+document.getElementById('startButton').addEventListener('click', focusOnSouthAmerica);

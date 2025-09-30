@@ -1,8 +1,27 @@
 body {
     margin: 0;
     padding: 0;
-    overflow: hidden; 
+    overflow: hidden;
+    /* background: #000; */
 } 
 canvas {
     display: block;
+}
+
+#startButton {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #FF0000;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    z-index: 10; /* Ensure the button is above the canvas */
+}
+
+#startButton:hover {
+    background-color: #0056b3;
 }

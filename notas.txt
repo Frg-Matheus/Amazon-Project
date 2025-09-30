@@ -11,3 +11,9 @@ Notas - Kanban Pobre
 //A terra vai ser tipo um vídeo. Ao clicar, irá abrir o mapa mundi (pique os tipos que vimos no three.js)
 
 //Deixar o site responsivo
+
+
+
+// girou girou girou ----> parou na América do sul ----> botão iniciar ----> expande ----> Slides
+
+// ADD UM BOTÃO 'START' 
