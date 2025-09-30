@@ -18,7 +18,7 @@ document.body.appendChild(renderer.domElement);
 camera.position.set(0, 0, 10); 
 
 //luz ambiente
-const ambientLight = new THREE.AmbientLight(0xffffff, 1.5);
+const ambientLight = new THREE.AmbientLight(0xffffff, 2.5);
 scene.add(ambientLight);
 
 //luz do sol (ou quase isso)
@@ -83,7 +83,7 @@ window.addEventListener('resize', () => {
 function focusOnSouthAmerica() {
     if (earth) {
         // Coordenadas aproximadas para a América do Sul (ajuste conforme necessário)
-        const targetPosition = new THREE.Vector3(-3, -2, 6); // Exemplo ajustado
+        const targetPosition = new THREE.Vector3(-6, -3, 4); // Exemplo ajustado
 
         const startPosition = camera.position.clone();
         const duration = 1000; // 1 segundo
@@ -105,9 +105,10 @@ function focusOnSouthAmerica() {
         animateFocus();
     }
 }
-// Adicionar o evento de clique ao botão
 
+// Adicionar o evento de clique ao botão
 document.getElementById('startButton').addEventListener('click', () => {
     stopAnimation();
     focusOnSouthAmerica();
 });
+

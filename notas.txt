@@ -13,9 +13,7 @@ Notas - Kanban Pobre
 //Deixar o site responsivo
 
 
->
+
 // girou girou girou ---->  botão iniciar ----> parou na América do sul  ----> expande ----> Slides
 
-// ADD UM BOTÃO 'START' 
-
-// ADD BOOTSTRAP --> BIBLIOTECA
+// Limitar a terrinha
