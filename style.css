@@ -26,3 +26,7 @@ canvas {
 #startButton:hover {
     background-color: #d42f2f;
 }
+
+.hidden {
+    display: none;
+}

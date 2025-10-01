@@ -12,7 +12,7 @@ Notas - Kanban Pobre
 
 
 
-// girou girou girou ---->  botão iniciar ----> parou na América do sul  ----> expande ----> Slides
+// girou girou girou ---->  botão iniciar ----> parou na América do sul  ----> expande ----> Botão dos países ------> Slides -----> 
 
 //  CHECK                        CHECK                 CHECK                    CHECK       
 
