@@ -2,8 +2,6 @@ Notas - Kanban Pobre
 
 //O load da terra demora cerca de 2 segundos. Ainda não sei se depende da conexão ou do pc --> (VARIA)CHECK
 
-//bloquear o zoom-in e o zoom-out, para não perder o modelo da terra de vista e nem ficar PERTO DEMAIS --> CHECK
-
 //deixar os países clicáveis, com informações sobre queimadas (NÃO FAÇO IDEIA DE COMO DEIXAR ELES CLICÁVEIS, MAS VOU PESQUISAR)
 
 //deixar o fundo mais atrativo (com um perolado, talvez, ou algo que deixe mais com vibe de espaço) e adicionar as estrelas
