@@ -9,6 +9,7 @@ canvas {
 }
 
 #startButton {
+    display: none;
     position: absolute;
     top: 20px;
     left: 20px;
@@ -19,7 +20,7 @@ canvas {
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    z-index: 10; /* Ensure the button is above the canvas */
+    z-index: 10;
 }
 
 #startButton:hover {

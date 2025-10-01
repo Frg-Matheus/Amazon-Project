@@ -26,26 +26,25 @@ const directionalLight = new THREE.DirectionalLight(0xffffff, 2.5);
 directionalLight.position.set(5, 3, 5);
 scene.add(directionalLight);
 
-
+//carregamento do modelo 3D da terra
 let earth;
 const loader = new THREE.GLTFLoader();
 
+
+// após o carregamento, remove a tela de loading e mostra o botão "Start"
 loader.load(
     'assets/models/earth.glb',
     function (gltf) {
         earth = gltf.scene;
-        
         scene.add(earth);
-        console.log('Modelo da Terra carregado com sucesso!');
+        document.body.removeChild(loadingDiv);
+        document.getElementById('startButton').style.display = 'block'; // Mostrar o botão "Start"
     },
-    
-    undefined, 
-    
+    undefined,
     function (error) {
-        console.error('Erro ao carregar o modelo GLTF:', error);
+        console.error(error);
     }
 );
-
 
 //controle de órbita
 const controls = new THREE.OrbitControls(camera, renderer.domElement);
@@ -75,7 +74,7 @@ function stopAnimation() {
     isAnimating = false;
 }
 
-// adaptar a cena ao redimensionar a tela
+//adaptar a cena ao redimensionar a tela
 window.addEventListener('resize', () => {
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
@@ -125,11 +124,5 @@ loadingDiv.style.fontSize = '24px';
 loadingDiv.style.color = 'white';
 loadingDiv.innerText = 'Loading...';
 document.body.appendChild(loadingDiv);
-const checkEarthLoaded = setInterval(() => {
-    if (earth) {
-        document.body.removeChild(loadingDiv);
-        clearInterval(checkEarthLoaded);
-    }
-}, 100); // verifica a cada 100ms se a Terra foi carregada
 
-//
+
