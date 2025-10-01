@@ -54,6 +54,7 @@ controls.maxDistance = 20;  // máximo: não se afasta demais
 controls.minPolarAngle = 0.2 * Math.PI; // não deixa ver só o polo norte
 controls.maxPolarAngle = 0.8 * Math.PI; // não deixa ver só o polo sul
 controls.enablePan = false; // impede arrastar a cena pro lado
+controls.enableZoom = false;
 
 function animate() {
     requestAnimationFrame(animate); 
@@ -115,6 +116,7 @@ document.getElementById('startButton').addEventListener('click', () => {
 });
 
 // Tela de loading enquanto a terra não carrega
+//Substituir por um vídeo futuramente (mais visual)
 const loadingDiv = document.createElement('div');
 loadingDiv.style.position = 'absolute';
 loadingDiv.style.top = '50%';
