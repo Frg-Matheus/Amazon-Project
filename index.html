@@ -1,28 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>EchoSpace</title>
 
-    <link rel="icon" type="image/x-icon" href="assets/img/space_orange@.png" />
-    <link rel="stylesheet" href="style.css" />
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EchoSpace</title>
 
-    <!-- suporte glb -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+  <link rel="icon" type="image/x-icon" href="assets/img/space_orange@.png" />
+  <link rel="stylesheet" href="style.css" />
 
-    <!-- controle de órbita -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
-  </head>
+  <!-- suporte glb -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
 
-  <body>
-    <!-- Botão para focar na América do Sul -->
+  <!-- controle de órbita -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+</head>
 
+<body>
+  <!-- Botão para focar na América do Sul -->
+
+  <div class="startButton">
     <button id="startButton">Start Exploration</button>
+  </div>
 
-    <script src="src/animation.js"></script>
-  </body>
+  <div class="countryButtons">
+    <button id="buttonBrazil"></button>
+    <button id="buttonBolivia"></button>
+    <button id="buttonChile"></button>
+  </div>
+
+  <script src="src/animation.js"></script>
+  <script src="src/buttons.js"></script>
+</body>
+
 </html>

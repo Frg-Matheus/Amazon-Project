@@ -87,21 +87,6 @@ for (let i = 1; i <= 3; i++) {
 
 document.body.appendChild(loadingDiv);
 
-// após o carregamento, remove a tela de loading e mostra o botão "Start"
-loader.load(
-    'assets/models/earth.glb',
-    function (gltf) {
-        earth = gltf.scene;
-        scene.add(earth);
-        document.body.removeChild(loadingDiv);
-        document.getElementById('startButton').style.display = 'block'; // Mostrar o botão "Start"
-    },
-    undefined,
-    function (error) {
-        console.error(error);
-    }
-);
-
 //controle de órbita
 const controls = new THREE.OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true; // suaviza o movimento
@@ -135,37 +120,4 @@ window.addEventListener('resize', () => {
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
     renderer.setSize(window.innerWidth, window.innerHeight);
-});
-
-// Função para focar na América do Sul
-function focusOnSouthAmerica() {
-    if (earth) {
-        // Coordenadas aproximadas para a América do Sul (tentei ajustar o máximo possível)
-        const targetPosition = new THREE.Vector3(-6, -3, 4); 
-
-        const startPosition = camera.position.clone();
-        const duration = 1000; // 1 segundo
-        const startTime = performance.now();
-
-        function animateFocus() {
-            const elapsed = performance.now() - startTime;
-            const progress = Math.min(elapsed / duration, 1);
-
-            // Interpolação suave
-            camera.position.copy(startPosition.clone().lerp(targetPosition, progress));
-            camera.lookAt(earth.position); // A câmera vai olhar pro centro da Terra
-
-            if (progress < 1) {
-                requestAnimationFrame(animateFocus);
-            }
-        }
-
-        animateFocus();
-    }
-}
-
-// Evento de clique ao botão "Start" para focar na América do Sul
-document.getElementById('startButton').addEventListener('click', () => {
-    stopAnimation();
-    focusOnSouthAmerica();
 });

@@ -6,15 +6,14 @@ Notas - Kanban Pobre
 
 //deixar os países clicáveis, com informações sobre queimadas (NÃO FAÇO IDEIA DE COMO DEIXAR ELES CLICÁVEIS, MAS VOU PESQUISAR)
 
-//deixar o fundo mais atrativo (com um perolado, talvez, ou algo que deixe mais com vibe de espaço) e adicionar as estrelas
+//deixar o fundo mais atrativo (com um perolado, talvez, ou algo que deixe mais com vibe de espaço) e adicionar as estrelas --> CHECK
 
 //A terra vai ser tipo um vídeo. Ao clicar, irá abrir o mapa mundi (pique os tipos que vimos no three.js)
 
 //Deixar o site responsivo
 
 
-
-// girou girou girou ---->  botão iniciar ----> parou na América do sul  ----> expande ----> Slides
+// girou girou girou ---->  botão iniciar ----> parou na América do sul  ----> expande ----> botao com os países
 
 //  CHECK                        CHECK                 CHECK                    CHECK       
 

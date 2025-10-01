@@ -40,3 +40,48 @@ canvas {
     /* Duração (1.5s), repetição infinita e a animação */
     animation: dot-blink 1.5s infinite; 
 }
+
+.countryButtons {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 10px 20px;
+    z-index: 10;
+}
+
+#buttonBrazil {
+    background-color: #009b3a;
+    font-size: 1.5rem;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+#buttonBrazil:hover {
+    background-color: #007a2e;
+}
+
+#buttonBolivia {
+    background-color: #ebfc06;
+    font-size: 1.5rem;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+#buttonBolivia:hover {
+    background-color: #aef509;
+}
+
+#buttonChile {
+    background-color: #009b3a;
+    font-size: 1.5rem;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+#buttonChile:hover {
+    background-color: #007a2e;
+}
