@@ -1,4 +1,4 @@
-// após o carregamento, remove a tela de loading e mostra o botão "Start"
+// após o carregamento, remove a tela de loading e mostra o botão "Start"/ "Botão dos Países"
 loader.load(
     'assets/models/earth.glb',
     function (gltf) {
@@ -6,6 +6,9 @@ loader.load(
         scene.add(earth);
         document.body.removeChild(loadingDiv);
         document.getElementById('startButton').style.display = 'block'; // Mostrar o botão "Start"
+        document.getElementById('buttonBrazil').style.display = 'block'; // Mostrar os botões dos países
+        document.getElementById('buttonBolivia').style.display = 'block'; // Mostrar os botões dos países
+        document.getElementById('buttonChile').style.display = 'block'; // Mostrar os botões dos países
     },
     undefined,
     function (error) {

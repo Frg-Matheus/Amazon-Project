@@ -42,6 +42,8 @@ canvas {
 }
 
 .countryButtons {
+    display: flex;
+    justify-content: space-between;
     position: absolute;
     bottom: 20px;
     left: 50%;
@@ -51,8 +53,9 @@ canvas {
 }
 
 #buttonBrazil {
+    display: none;
     background-color: #009b3a;
-    font-size: 1.5rem;
+    font-size: 1rem;
     border-radius: 5px;
     padding: 10px 20px;
     cursor: pointer;
@@ -63,8 +66,9 @@ canvas {
 }
 
 #buttonBolivia {
+    display: none;
     background-color: #ebfc06;
-    font-size: 1.5rem;
+    font-size: 1rem;
     border-radius: 5px;
     padding: 10px 20px;
     cursor: pointer;
@@ -75,8 +79,9 @@ canvas {
 }
 
 #buttonChile {
+    display: none;
     background-color: #009b3a;
-    font-size: 1.5rem;
+    font-size: 1rem;
     border-radius: 5px;
     padding: 10px 20px;
     cursor: pointer;
