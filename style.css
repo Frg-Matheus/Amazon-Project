@@ -26,3 +26,17 @@ canvas {
 #startButton:hover {
     background-color: #d42f2f;
 }
+
+/* Animação da tela de carregamento */
+
+@keyframes dot-blink {
+    0% { opacity: 0; }
+    50% { opacity: 1; }
+    100% { opacity: 0; }
+}
+
+.loading-dot {
+    font-weight: bold;
+    /* Duração (1.5s), repetição infinita e a animação */
+    animation: dot-blink 1.5s infinite; 
+}

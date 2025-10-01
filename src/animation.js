@@ -9,6 +9,42 @@ const camera = new THREE.PerspectiveCamera(
     1000 
 );
 
+function createStarryBackground() {
+    const starGeometry = new THREE.BufferGeometry();
+    const starMaterial = new THREE.PointsMaterial({
+        color: 0xffffff,
+        size: 0.1, // Tamanho da estrela
+        sizeAttenuation: true // Faz com que estrelas mais distantes pareçam menores
+    });
+
+    const starVertices = [];
+    const starCount = 10000; // Número de estrelas
+
+    // Gera posições aleatórias para as estrelas em um grande volume esférico
+    for (let i = 0; i < starCount; i++) {
+        // Raio grande, para as estrelas ficarem bem longe
+        const radius = 1000 + Math.random() * 500; 
+        const theta = Math.random() * 2 * Math.PI;
+        const phi = Math.acos(Math.random() * 2 - 1);
+
+        // Conversão de coordenadas esféricas para cartesianas
+        const x = radius * Math.sin(phi) * Math.cos(theta);
+        const y = radius * Math.sin(phi) * Math.sin(theta);
+        const z = radius * Math.cos(phi);
+
+        starVertices.push(x, y, z);
+    }
+
+    starGeometry.setAttribute('position', new THREE.Float32BufferAttribute(starVertices, 3));
+
+    const stars = new THREE.Points(starGeometry, starMaterial);
+    // Para garantir que as estrelas fiquem no fundo e não se movam com a rotação da Terra
+    stars.name = 'Stars'; 
+    scene.add(stars);
+}
+
+createStarryBackground();
+
 const renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
@@ -30,6 +66,26 @@ scene.add(directionalLight);
 let earth;
 const loader = new THREE.GLTFLoader();
 
+// Tela de loading animada
+const loadingDiv = document.createElement('div');
+loadingDiv.id = 'animated-loading'; // ID para o CSS
+loadingDiv.style.position = 'absolute';
+loadingDiv.style.top = '50%';
+loadingDiv.style.left = '50%';
+loadingDiv.style.transform = 'translate(-50%, -50%)';
+loadingDiv.style.color = 'white';
+loadingDiv.style.fontSize = '54px'; // Tamanho do texto para 'Loading...'
+
+for (let i = 1; i <= 3; i++) {
+    const dot = document.createElement('span');
+    dot.className = 'loading-dot'; // Classe para o CSS
+    dot.innerText = '.';
+    dot.style.opacity = '0'; // Começa transparente
+    dot.style.animationDelay = `${i * 0.2}s`; // Define o atraso sequencial
+    loadingDiv.appendChild(dot);
+}
+
+document.body.appendChild(loadingDiv);
 
 // após o carregamento, remove a tela de loading e mostra o botão "Start"
 loader.load(
@@ -113,16 +169,3 @@ document.getElementById('startButton').addEventListener('click', () => {
     stopAnimation();
     focusOnSouthAmerica();
 });
-
-// Tela de loading enquanto a terra não carrega
-const loadingDiv = document.createElement('div');
-loadingDiv.style.position = 'absolute';
-loadingDiv.style.top = '50%';
-loadingDiv.style.left = '50%';
-loadingDiv.style.transform = 'translate(-50%, -50%)';
-loadingDiv.style.fontSize = '24px';
-loadingDiv.style.color = 'white';
-loadingDiv.innerText = 'Loading...';
-document.body.appendChild(loadingDiv);
-
-
