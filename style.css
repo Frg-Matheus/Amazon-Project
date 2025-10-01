@@ -1,8 +1,92 @@
 body {
     margin: 0;
     padding: 0;
-    overflow: hidden; 
+    overflow: hidden;
+    /* background: #000; */
 } 
 canvas {
     display: block;
+}
+
+#startButton {
+    display: none;
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #FF0000;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    z-index: 10;
+}
+
+#startButton:hover {
+    background-color: #d42f2f;
+}
+
+/* Animação da tela de carregamento */
+
+@keyframes dot-blink {
+    0% { opacity: 0; }
+    50% { opacity: 1; }
+    100% { opacity: 0; }
+}
+
+.loading-dot {
+    font-weight: bold;
+    /* Duração (1.5s), repetição infinita e a animação */
+    animation: dot-blink 1.5s infinite; 
+}
+
+.countryButtons {
+    display: flex;
+    justify-content: space-between;
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 10px 20px;
+    z-index: 10;
+}
+
+#buttonBrazil {
+    display: none;
+    background-color: #009b3a;
+    font-size: 1rem;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+#buttonBrazil:hover {
+    background-color: #007a2e;
+}
+
+#buttonBolivia {
+    display: none;
+    background-color: #ebfc06;
+    font-size: 1rem;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+#buttonBolivia:hover {
+    background-color: #aef509;
+}
+
+#buttonChile {
+    display: none;
+    background-color: #009b3a;
+    font-size: 1rem;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+#buttonChile:hover {
+    background-color: #007a2e;
 }
