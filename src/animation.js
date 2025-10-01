@@ -49,8 +49,12 @@ loader.load(
 
 //controle de órbita
 const controls = new THREE.OrbitControls(camera, renderer.domElement);
-controls.enableDamping = true;
-
+controls.enableDamping = true; // suaviza o movimento
+controls.minDistance = 5;   // mínimo: não cola demais no globo
+controls.maxDistance = 20;  // máximo: não se afasta demais
+controls.minPolarAngle = 0.2 * Math.PI; // não deixa ver só o polo norte
+controls.maxPolarAngle = 0.8 * Math.PI; // não deixa ver só o polo sul
+controls.enablePan = false; // impede arrastar a cena pro lado
 
 function animate() {
     requestAnimationFrame(animate); 
@@ -63,7 +67,6 @@ function animate() {
     renderer.render(scene, camera);
 }
 
-
 animate();
 
 let isAnimating = true; // controle da rotação
@@ -71,8 +74,8 @@ let isAnimating = true; // controle da rotação
 function stopAnimation() {
     isAnimating = false;
 }
-//adaptar a cena ao redimensionar a tela
 
+// adaptar a cena ao redimensionar a tela
 window.addEventListener('resize', () => {
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
@@ -82,8 +85,8 @@ window.addEventListener('resize', () => {
 // Função para focar na América do Sul
 function focusOnSouthAmerica() {
     if (earth) {
-        // Coordenadas aproximadas para a América do Sul (ajuste conforme necessário)
-        const targetPosition = new THREE.Vector3(-6, -3, 4); // Exemplo ajustado
+        // Coordenadas aproximadas para a América do Sul (tentei ajustar o máximo possível)
+        const targetPosition = new THREE.Vector3(-6, -3, 4); 
 
         const startPosition = camera.position.clone();
         const duration = 1000; // 1 segundo
@@ -95,7 +98,7 @@ function focusOnSouthAmerica() {
 
             // Interpolação suave
             camera.position.copy(startPosition.clone().lerp(targetPosition, progress));
-            camera.lookAt(earth.position); // Garante que a câmera olhe para o centro da Terra
+            camera.lookAt(earth.position); // A câmera vai olhar pro centro da Terra
 
             if (progress < 1) {
                 requestAnimationFrame(animateFocus);
@@ -106,9 +109,27 @@ function focusOnSouthAmerica() {
     }
 }
 
-// Adicionar o evento de clique ao botão
+// Evento de clique ao botão "Start" para focar na América do Sul
 document.getElementById('startButton').addEventListener('click', () => {
     stopAnimation();
     focusOnSouthAmerica();
 });
 
+// Tela de loading enquanto a terra não carrega
+const loadingDiv = document.createElement('div');
+loadingDiv.style.position = 'absolute';
+loadingDiv.style.top = '50%';
+loadingDiv.style.left = '50%';
+loadingDiv.style.transform = 'translate(-50%, -50%)';
+loadingDiv.style.fontSize = '24px';
+loadingDiv.style.color = 'white';
+loadingDiv.innerText = 'Loading...';
+document.body.appendChild(loadingDiv);
+const checkEarthLoaded = setInterval(() => {
+    if (earth) {
+        document.body.removeChild(loadingDiv);
+        clearInterval(checkEarthLoaded);
+    }
+}, 100); // verifica a cada 100ms se a Terra foi carregada
+
+//

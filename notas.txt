@@ -16,4 +16,7 @@ Notas - Kanban Pobre
 
 // girou girou girou ---->  botão iniciar ----> parou na América do sul  ----> expande ----> Slides
 
-// Limitar a terrinha
+//  CHECK                        CHECK                 CHECK                    CHECK       
+
+
+// Limitar a terra
