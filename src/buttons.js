@@ -1,3 +1,8 @@
+//import { createSidePanel, openBrazilPanel } from './panel.js'; // Cria o painel uma vez 
+//const sidePanel = createSidePanel(); 
+//adicionou o painel lateral, junto com as infos de queimadas (requer dados reais das APIs, mas funcionou para teste) e a imagem de antes e depois
+//porém está quebrando o código. Comentado na linha 132 e 133
+
 //caso dê erro no zoom, deve ser arrumado por aqui
 const EARTH_RADIUS = 5; //raio aproximado do modelo da terra
 const ZOOM_DISTANCE = 3; //distância da câmera após o zoom
@@ -88,6 +93,30 @@ function focusOnChile() {
     focusOnRegion(-35, -45); 
 }
 
+/*
+A lógica abaixo é para destacar a fronteira do Brasil quando o botão do Brasil for clicado.
+Ela depende de como as fronteiras foram carregadas no modelo 3D (GLTF).
+Se as fronteiras forem objetos separados, essa lógica pode funcionar.
+Caso contrário, será necessário um método diferente para destacar a fronteira.
+Além de que, essa função não estava sendo chamada antes, por isso (eu acho) não estava funcionando.
+Irei refazer o código de fronteiras novamente depois.
+
+// Supondo que as fronteiras dos países sejam objetos filhos do modelo da Terra
+let countryLines = [];
+
+function highlightFirstBorder() {
+    resetBorders();
+    if (countryLines[0]) {
+        countryLines[0].material.color.set(highlightColor);
+    }
+}
+
+document.getElementById('startButton').addEventListener('click', () => {
+    focusOnSouthAmerica();
+});
+*/
+
+
 // EVENT LISTENERS E LÓGICA DE CARREGAMENTO
 
 // Evento de clique ao botão "Start"
@@ -99,6 +128,9 @@ document.getElementById('startButton').addEventListener('click', () => {
 // Event Listeners dos Botões de Países
 document.getElementById('buttonBrazil').addEventListener('click', () => {
     focusOnBrazil();
+    createBrazilPin();
+    //openBrazilPanel(sidePanel);
+    //highlightFirstBorder();
 });
 
 document.getElementById('buttonBolivia').addEventListener('click', () => {
@@ -116,7 +148,7 @@ loader.load(
     function (gltf) {
         earth = gltf.scene;
         scene.add(earth);
-        
+
         // após o carregamento, remove a tela de loading e mostra os botões
         document.body.removeChild(loadingDiv);
         document.getElementById('startButton').style.display = 'block'; 
@@ -129,3 +161,34 @@ loader.load(
         console.error('Erro ao carregar o modelo GLTF:', error);
     }
 );
+
+let brazilPin;
+
+function createBrazilPin() {
+    if (brazilPin) earth.remove(brazilPin);
+
+    const pinGeometry = new THREE.ConeGeometry(0.1, 0.5, 16);
+    const pinMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000 });
+    brazilPin = new THREE.Mesh(pinGeometry, pinMaterial);
+
+    const brazilPos = latLongToVector3(-8, -50, EARTH_RADIUS + 0.25);
+    brazilPin.position.copy(brazilPos);
+
+    const target = new THREE.Vector3(0,0,0); 
+    brazilPin.lookAt(target);
+
+    brazilPin.rotateX(Math.PI);
+
+    earth.add(brazilPin);
+
+    // Animação up/down (opcional)
+    let direction = 1;
+    function animatePin() {
+        if (!brazilPin) return;
+        brazilPin.position.y += 0.005 * direction;
+        if (brazilPin.position.y > brazilPos.y + 0.2 || brazilPin.position.y < brazilPos.y - 0.2) direction *= -1;
+        requestAnimationFrame(animatePin);
+    }
+    animatePin();
+}
+

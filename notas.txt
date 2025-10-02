@@ -8,7 +8,7 @@ Notas - Kanban Pobre
 
 //deixar o fundo mais atrativo (com um perolado, talvez, ou algo que deixe mais com vibe de espaço) e adicionar as estrelas --> CHECK
 
-//A terra vai ser tipo um vídeo. Ao clicar, irá abrir o mapa mundi (pique os tipos que vimos no three.js)
+//A terra vai ser tipo um vídeo. Ao clicar, irá abrir o mapa mundi (pique os tipos que vimos no three.js) //talvez descartado
 
 //Deixar o site responsivo
 
@@ -19,6 +19,12 @@ Notas - Kanban Pobre
 //Animar os países/os pins
 
 //Após terminar a parte de estilização, iniciar o trabalho com as API'S
+
+//Adicionar o pin em outros países
+
+//Ao clicar em um país, remover o pin do país anterior
+
+//Não deixar o mesmo país ser clicado 2x (ou seja, enquanto estiver selecionado, evitando animação extra e pin bugado)
 
 
 // girou girou girou ---->  botão iniciar ----> parou na América do sul  ----> expande ----> botao com os países
