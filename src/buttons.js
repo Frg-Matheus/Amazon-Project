@@ -1,5 +1,5 @@
-//import { createSidePanel, openBrazilPanel } from './panel.js'; // Cria o painel uma vez 
-//const sidePanel = createSidePanel(); 
+import { createSidePanel, openBrazilPanel } from './panel.js'; // Cria o painel uma vez 
+const sidePanel = createSidePanel(); 
 //adicionou o painel lateral, junto com as infos de queimadas (requer dados reais das APIs, mas funcionou para teste) e a imagem de antes e depois
 //porém está quebrando o código. Comentado na linha 132 e 133
 
@@ -129,7 +129,7 @@ document.getElementById('startButton').addEventListener('click', () => {
 document.getElementById('buttonBrazil').addEventListener('click', () => {
     focusOnBrazil();
     createBrazilPin();
-    //openBrazilPanel(sidePanel);
+    openBrazilPanel(sidePanel);
     //highlightFirstBorder();
 });
 
