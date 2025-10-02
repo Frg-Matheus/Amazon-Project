@@ -12,6 +12,14 @@ Notas - Kanban Pobre
 
 //Deixar o site responsivo
 
+//Adicionar os botões de navegação dos países somente após apertar no botao Start
+
+//Deixar os países em FOCO
+
+//Animar os países/os pins
+
+//Após terminar a parte de estilização, iniciar o trabalho com as API'S
+
 
 // girou girou girou ---->  botão iniciar ----> parou na América do sul  ----> expande ----> botao com os países
 

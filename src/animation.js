@@ -1,4 +1,7 @@
 const scene = new THREE.Scene();
+let isAnimating = true;
+let earth;
+let controls; 
 
 scene.background = new THREE.Color(0x050505); 
 
@@ -29,8 +32,8 @@ function createStarryBackground() {
 
         // Conversão de coordenadas esféricas para cartesianas
         const x = radius * Math.sin(phi) * Math.cos(theta);
-        const y = radius * Math.sin(phi) * Math.sin(theta);
-        const z = radius * Math.cos(phi);
+        const y = radius * Math.cos(phi);
+        const z = radius * Math.sin(phi) * Math.sin(theta);
 
         starVertices.push(x, y, z);
     }
@@ -63,7 +66,6 @@ directionalLight.position.set(5, 3, 5);
 scene.add(directionalLight);
 
 //carregamento do modelo 3D da terra
-let earth;
 const loader = new THREE.GLTFLoader();
 
 // Tela de loading animada
@@ -88,13 +90,65 @@ for (let i = 1; i <= 3; i++) {
 document.body.appendChild(loadingDiv);
 
 //controle de órbita
-const controls = new THREE.OrbitControls(camera, renderer.domElement);
+controls = new THREE.OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true; // suaviza o movimento
-controls.minDistance = 5;   // mínimo: não cola demais no globo
-controls.maxDistance = 20;  // máximo: não se afasta demais
+controls.minDistance = 5;   // mínimo: não cola demais no globo
+controls.maxDistance = 20;  // máximo: não se afasta demais
 controls.minPolarAngle = 0.2 * Math.PI; // não deixa ver só o polo norte
 controls.maxPolarAngle = 0.8 * Math.PI; // não deixa ver só o polo sul
 controls.enablePan = false; // impede arrastar a cena pro lado
+
+//desabilitar a interação manual (girar a terra) - ativar apenas quando necessário
+controls.enableRotate = false; 
+controls.enableZoom = false; 
+
+// FUNÇÕES DE CÂMERA E UTILIDADES
+
+// Função utilitária para conversão de Lat/Lon para Coordenadas 3D
+function latLongToVector3(lat, lon, radius) {
+    const phi = (90 - lat) * (Math.PI / 180); 
+    const theta = (lon + 90) * (Math.PI / 180); 
+
+    return new THREE.Vector3(
+        -radius * Math.sin(phi) * Math.cos(theta),
+        radius * Math.cos(phi),
+        radius * Math.sin(phi) * Math.sin(theta)
+    );
+}
+
+// Função para animar a câmera suavemente entre dois pontos
+function animateCamera(targetPosition, lookAtPosition, duration = 1500) {
+    if (!earth) return;
+    
+    // Habilita temporariamente os controles apenas para atualizar o alvo durante a animação
+    controls.enabled = true; 
+
+    const startPosition = camera.position.clone();
+    const startLookAt = controls.target.clone();
+    const startTime = performance.now();
+
+    function animateFocus() {
+        const elapsed = performance.now() - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        
+        // Interpolação de Posição (Move a Câmera)
+        camera.position.copy(startPosition.clone().lerp(targetPosition, progress));
+
+        // Interpolação do Foco (Move o Ponto de Vista)
+        const currentLookAt = startLookAt.clone().lerp(lookAtPosition, progress);
+        camera.lookAt(currentLookAt);
+        controls.target.copy(currentLookAt); // Atualiza o target do OrbitControls
+        
+        if (progress < 1) {
+            requestAnimationFrame(animateFocus);
+        } else {
+            // Reabilita o bloqueio após terminar a animação da câmera
+            controls.enabled = false; 
+        }
+    }
+
+    animateFocus();
+}
 
 function animate() {
     requestAnimationFrame(animate); 
@@ -108,8 +162,6 @@ function animate() {
 }
 
 animate();
-
-let isAnimating = true; // controle da rotação
 
 function stopAnimation() {
     isAnimating = false;
