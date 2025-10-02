@@ -9,10 +9,6 @@
   <link rel="icon" type="image/x-icon" href="assets/img/space_orange@.png" />
   <link rel="stylesheet" href="style.css" />
 
-  <!-- controle de órbita -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
 </head>
 
 <body>
@@ -23,14 +19,11 @@
   </div>
 
   <div class="countryButtons">
-    <button id="buttonBrazil">Brazil</button>
-    <button id="buttonBolivia">Bolivia</button>
-    <button id="buttonChile">Chile</button>
+    <button class="buttons hidden" id="buttonBrazil">Brazil</button>
+    <button class="buttons hidden" id="buttonBolivia">Bolivia</button>
+    <button class="buttons hidden" id="buttonChile">Chile</button>
   </div>
-
-  <script src="src/animation.js"></script>
-  <script src="src/showFire.js"></script>
-  <script src="src/buttons.js"></script>
+  <script src="/assets/src/buttons.js"></script>
 </body>
 
 </html>
