@@ -79,6 +79,17 @@ export function openBrazilPanel(sidePanel) {
         divider.style.left = offset + 'px';
     });
 
+    // Aviso "Scroll Down"
+    const scrollHint = document.createElement('div');
+    scrollHint.className = 'scroll-hint';
+    scrollHint.innerHTML = `
+        <span>Scroll Down</span>
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M12 5v14M12 19l-7-7M12 19l7-7" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+    `;
+    sidePanel.appendChild(scrollHint);
+
     // Abre o painel
     sidePanel.style.transform = 'translateX(0)';
 }
