@@ -29,10 +29,38 @@ camera.position.set(0, 0, 10);
 
 // BACKGROUND ESTRELADO 
 function createStarryBackground() {
-    // [Seu código original de criação de estrelas deve ser mantido aqui]
+    const starGeometry = new THREE.BufferGeometry();
+    const starMaterial = new THREE.PointsMaterial({
+        color: 0xffffff,
+        size: 0.1, // Tamanho da estrela
+        sizeAttenuation: true // Faz com que estrelas mais distantes pareçam menores
+    });
+
+    const starVertices = [];
+    const starCount = 10000; // Número de estrelas
+
+    // Gera posições aleatórias para as estrelas em um grande volume esférico
+    for (let i = 0; i < starCount; i++) {
+        // Raio grande, para as estrelas ficarem bem longe
+        const radius = 1000 + Math.random() * 500; 
+        const theta = Math.random() * 2 * Math.PI;
+        const phi = Math.acos(Math.random() * 2 - 1);
+
+        // Conversão de coordenadas esféricas para cartesianas
+        const x = radius * Math.sin(phi) * Math.cos(theta);
+        const y = radius * Math.cos(phi);
+        const z = radius * Math.sin(phi) * Math.sin(theta);
+
+        starVertices.push(x, y, z);
+    }
+
+    starGeometry.setAttribute('position', new THREE.Float32BufferAttribute(starVertices, 3));
+
+    const stars = new THREE.Points(starGeometry, starMaterial);
+    stars.name = 'Stars'; 
+    scene.add(stars); // Adiciona as estrelas à cena
 }
 createStarryBackground(); 
-
 
 // Renderizador e Anexação
 const renderer = new THREE.WebGLRenderer({ antialias: true });
@@ -282,44 +310,42 @@ window.addEventListener('resize', () => {
 
 document.addEventListener('DOMContentLoaded', () => {
     // CRÍTICO: Certifique-se de que o GSAP e ScrollTrigger estão carregados no seu HTML!
-    if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
-        gsap.registerPlugin(ScrollTrigger);
+if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+    gsap.registerPlugin(ScrollTrigger);
 
-        const storyContent = document.querySelector('.story-content');
-        const webglContainer = document.getElementById('webgl-container');
-        const zoomBrasilSection = document.getElementById('brasil'); 
+const storyContent = document.querySelector('.story-content');
+const webglContainer = document.getElementById('webgl-container');
+const zoomBrasilSection = document.getElementById('brasil'); 
 
-        if (zoomBrasilSection && storyContent) {
-            
-            // 1. O ScrollTrigger monitora a rolagem da seção '#brasil'
-            ScrollTrigger.create({
-                trigger: zoomBrasilSection, 
-                start: "top center", // Inicia quando o topo da seção chega ao centro do viewport
-                end: "+=500",        // A animação dura 500px de rolagem
-                scrub: true,         // Vincula a animação à rolagem (o GSAP fará o ir e vir)
+if (zoomBrasilSection && storyContent) {
+// 1. O ScrollTrigger monitora a rolagem da seção '#brasil'
+ScrollTrigger.create({
+        trigger: zoomBrasilSection, 
+        start: "top center", // Inicia quando o topo da seção chega ao centro do viewport
+        end: "+=500",        // A animação dura 500px de rolagem
+        scrub: true,         // Vincula a animação à rolagem (o GSAP fará o ir e vir)
                 
-                // 2. Animação de Layout: Expande o conteúdo e esconde o globo
-                animation: gsap.timeline()
-                    .to(storyContent, {
-                        width: "100vw", // Expande de 500px para 100vw
-                        duration: 1,
-                        ease: "none"
-                    }, 0) // Ponto zero da timeline
-                    .to(webglContainer, {
-                        opacity: 0, // Esconde o globo
-                        duration: 0.5,
-                        ease: "none"
-                    }, 0) // Inicia junto
-            });
-            
+        // 2. Animação de Layout: Expande o conteúdo e esconde o globo
+        animation: gsap.timeline()
+        .to(storyContent, {
+        width: "100vw", // Expande de 500px para 100vw
+        duration: 1,
+        ease: "none"
+        }, 0) // Ponto zero da timeline
+        .to(webglContainer, {
+        opacity: 0, // Esconde o globo
+        duration: 0.5,
+        ease: "none"
+        }, 0) // Inicia junto
+});
             // CRÍTICO: Garante que o fundo do painel seja sólido ao rolar
             // Isso evita que o preto do body apareça por baixo
-            ScrollTrigger.create({
+ScrollTrigger.create({
                 trigger: zoomBrasilSection, 
                 start: "top bottom",
                 onEnter: () => storyContent.style.backgroundColor = 'rgba(255, 255, 255, 1)',
                 onLeaveBack: () => storyContent.style.backgroundColor = 'rgba(255, 255, 255, 0.85)',
-            });
+});
         }
     } else {
         console.warn("GSAP ou ScrollTrigger não carregados. Animações de rolagem desabilitadas.");
