@@ -15,24 +15,28 @@ const sidePanel = createSidePanel();
 const EARTH_RADIUS = 5; 
 const ZOOM_DISTANCE = 3; 
 
-/*
- * NOTA CRÍTICA: As funções rotateToFocus, focusOnRegion, latLongToVector3, 
- * animateCamera, createBrazilPin, etc., FORAM REMOVIDAS daqui.
- * Elas devem residir APENAS no animation.js para evitar duplicação e erros de escopo.
- */
 
 // EVENT LISTENERS DE UI
 
 // Evento de clique ao botão "Start"
 document.getElementById('startButton').addEventListener('click', () => {
+    
+    // === NOVO: MOVE O CONTÊINER DO GLOBO PARA A POSIÇÃO FIXA ===
+    document.getElementById('webgl-container').classList.add('active');
+    
     // Chama a função global definida em animation.js
     focusOnSouthAmerica(); 
     
-    // Lógica de UI
+    // Lógica de UI (Botões)
     document.getElementById('startButton').style.display = 'none'; 
     document.getElementById('buttonBrazil').style.display = 'block'; 
     document.getElementById('buttonBolivia').style.display = 'block'; 
     document.getElementById('buttonChile').style.display = 'block'; 
+
+    // Mostra a seção de conteúdo rolável
+    const storyContent = document.querySelector('.story-content');
+    storyContent.style.opacity = '1';
+    storyContent.style.pointerEvents = 'auto'; 
 });
 
 // Event Listeners dos Botões de Países

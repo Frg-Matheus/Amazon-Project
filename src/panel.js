@@ -1,4 +1,4 @@
-// --- Arquivo: panel.js (Corrigido Definitivamente) ---
+// O CÓDIGO A SEGUIR DEVE SER SALVO EM SEU ARQUIVO panel.js
 
 // Função de fechamento: Centraliza a lógica para fechar o painel.
 function closePanel(sidePanel) {
@@ -39,7 +39,7 @@ export function createSidePanel() {
     // OUVINTE DE CLIQUE FUNCIONAL
     closeBtn.addEventListener('click', () => closePanel(sidePanel));
     
-    // Contêiner para o CONTEÚDO DINÂMICO (CRÍTICO para evitar que o botão seja apagado)
+    // Contêiner para o CONTEÚDO DINÂMICO
     let contentContainer = document.createElement('div');
     contentContainer.id = 'dynamicContent';
     sidePanel.appendChild(contentContainer);
@@ -62,7 +62,6 @@ function openPanel(sidePanel, contentHTML) {
     contentContainer.innerHTML = contentHTML;
 
     // 2. Reativa a interatividade (Antes/Depois)
-    // Usamos sidePanel.querySelector para garantir que pegamos os novos elementos
     const divider = sidePanel.querySelector('#divider');
     const imgAfter = sidePanel.querySelector('#imgAfter');
     
@@ -77,7 +76,6 @@ function openPanel(sidePanel, contentHTML) {
         
         document.addEventListener('mousemove', (e) => {
             if (!isDragging) return;
-            // Busca o contêiner 'beforeAfter'
             const rect = sidePanel.querySelector('#beforeAfter').getBoundingClientRect();
             let offset = e.clientX - rect.left;
             if (offset < 0) offset = 0;
@@ -92,7 +90,7 @@ function openPanel(sidePanel, contentHTML) {
 }
 
 // ===============================================
-// CONTEÚDOS ESPECÍFICOS (Templates para as 3 chamadas)
+// CONTEÚDOS ESPECÍFICOS (Templates)
 // ===============================================
 
 const brazilContent = `

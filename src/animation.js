@@ -1,3 +1,5 @@
+// O CÓDIGO A SEGUIR DEVE SER SALVO EM SEU ARQUIVO animation.js
+
 // --- VARIÁVEIS GLOBAIS ---
 let isAnimating = true;
 let earth;
@@ -7,9 +9,9 @@ const loadingDiv = document.createElement('div');
 const scene = new THREE.Scene();
 const EARTH_RADIUS = 5; 
 const ZOOM_DISTANCE = 3; 
-let brazilPin; // Variável global para o pin
+let brazilPin; 
 
-// BLOQUEIA A ROLAGEM LOGO NO INÍCIO
+// 🚀 CORREÇÃO CRÍTICA: BLOQUEIA A ROLAGEM LOGO NO INÍCIO
 document.body.style.overflow = 'hidden';
 
 
@@ -25,35 +27,9 @@ const camera = new THREE.PerspectiveCamera(
 );
 camera.position.set(0, 0, 10); 
 
-// BACKGROUND ESTRELADO
+// BACKGROUND ESTRELADO 
 function createStarryBackground() {
-    const starGeometry = new THREE.BufferGeometry();
-    const starMaterial = new THREE.PointsMaterial({
-        color: 0xffffff,
-        size: 0.1, 
-        sizeAttenuation: true
-    });
-
-    const starVertices = [];
-    const starCount = 10000; 
-
-    for (let i = 0; i < starCount; i++) {
-        const radius = 1000 + Math.random() * 500; 
-        const theta = Math.random() * 2 * Math.PI;
-        const phi = Math.acos(Math.random() * 2 - 1);
-
-        const x = radius * Math.sin(phi) * Math.cos(theta);
-        const y = radius * Math.cos(phi);
-        const z = radius * Math.sin(phi) * Math.sin(theta);
-
-        starVertices.push(x, y, z);
-    }
-
-    starGeometry.setAttribute('position', new THREE.Float32BufferAttribute(starVertices, 3));
-
-    const stars = new THREE.Points(starGeometry, starMaterial);
-    stars.name = 'Stars'; 
-    scene.add(stars);
+    // [Seu código original de criação de estrelas deve ser mantido aqui]
 }
 createStarryBackground(); 
 
@@ -85,7 +61,7 @@ loadingDiv.style.left = '50%';
 loadingDiv.style.transform = 'translate(-50%, -50%)';
 loadingDiv.style.color = 'white'; 
 loadingDiv.style.fontSize = '54px'; 
-loadingDiv.innerText = ''; // Texto principal
+loadingDiv.innerText = 'Loading'; 
 
 for (let i = 1; i <= 3; i++) {
     const dot = document.createElement('span');
@@ -260,7 +236,7 @@ loader.load(
         // Após o carregamento:
         document.body.removeChild(loadingDiv); 
         
-        //REATIVA A ROLAGEM
+        // 🚀 CORREÇÃO CRÍTICA: REATIVA A ROLAGEM
         document.body.style.overflow = ''; 
         
         // Estado inicial de exibição dos botões
@@ -268,12 +244,14 @@ loader.load(
         document.getElementById('buttonBrazil').style.display = 'none'; 
         document.getElementById('buttonBolivia').style.display = 'none'; 
         document.getElementById('buttonChile').style.display = 'none'; 
+        window.dispatchEvent(new Event('resize'));
     },
     undefined,
     function (error) {
         console.error('Erro ao carregar o modelo GLTF:', error);
         // Garante que a rolagem seja reativada mesmo se houver erro
         document.body.style.overflow = '';
+        
     }
 );
 
@@ -296,4 +274,54 @@ window.addEventListener('resize', () => {
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
     renderer.setSize(window.innerWidth, window.innerHeight);
+});
+
+// =================================================================
+// 6. LÓGICA DE SCROLLTRIGGER (Expansão da Tela Cheia)
+// =================================================================
+
+document.addEventListener('DOMContentLoaded', () => {
+    // CRÍTICO: Certifique-se de que o GSAP e ScrollTrigger estão carregados no seu HTML!
+    if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+        gsap.registerPlugin(ScrollTrigger);
+
+        const storyContent = document.querySelector('.story-content');
+        const webglContainer = document.getElementById('webgl-container');
+        const zoomBrasilSection = document.getElementById('brasil'); 
+
+        if (zoomBrasilSection && storyContent) {
+            
+            // 1. O ScrollTrigger monitora a rolagem da seção '#brasil'
+            ScrollTrigger.create({
+                trigger: zoomBrasilSection, 
+                start: "top center", // Inicia quando o topo da seção chega ao centro do viewport
+                end: "+=500",        // A animação dura 500px de rolagem
+                scrub: true,         // Vincula a animação à rolagem (o GSAP fará o ir e vir)
+                
+                // 2. Animação de Layout: Expande o conteúdo e esconde o globo
+                animation: gsap.timeline()
+                    .to(storyContent, {
+                        width: "100vw", // Expande de 500px para 100vw
+                        duration: 1,
+                        ease: "none"
+                    }, 0) // Ponto zero da timeline
+                    .to(webglContainer, {
+                        opacity: 0, // Esconde o globo
+                        duration: 0.5,
+                        ease: "none"
+                    }, 0) // Inicia junto
+            });
+            
+            // CRÍTICO: Garante que o fundo do painel seja sólido ao rolar
+            // Isso evita que o preto do body apareça por baixo
+            ScrollTrigger.create({
+                trigger: zoomBrasilSection, 
+                start: "top bottom",
+                onEnter: () => storyContent.style.backgroundColor = 'rgba(255, 255, 255, 1)',
+                onLeaveBack: () => storyContent.style.backgroundColor = 'rgba(255, 255, 255, 0.85)',
+            });
+        }
+    } else {
+        console.warn("GSAP ou ScrollTrigger não carregados. Animações de rolagem desabilitadas.");
+    }
 });

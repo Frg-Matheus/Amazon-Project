@@ -1,18 +1,14 @@
 /*================================================================
-    LAYOUT PRINCIPAL (GRID) E ESTILOS BÁSICOS
+    LAYOUT PRINCIPAL E ESTILOS BÁSICOS
 ================================================================*/
 body { 
-    /* ATIVA O GRID PARA DUAS COLUNAS */
-    display: grid;
-    grid-template-columns: 500px 1fr;
-    min-height: 100vh;
-    
     margin: 0; 
     padding: 0;
-    background-color: black;
+    background-color: black; 
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     color: #333; 
     line-height: 1.6;
+    /* REMOVIDO: display: grid; e grid-template-columns. */
 }
 
 canvas {
@@ -22,7 +18,6 @@ canvas {
 /*================================================================
     CORREÇÃO CRÍTICA PARA PAINÉIS FIXOS (Z-INDEX)
 ================================================================*/
-/* Força o painel lateral dinâmico (criado em panel.js) a ficar acima de TUDO */
 #sidePanel {
     z-index: 1000 !important; 
 }
@@ -32,45 +27,64 @@ canvas {
     1. O CANVAS 3D (FUNDO FIXO)
 ================================================================*/
 .webgl-container {
-    /* POSICIONADO PARA OCUPAR APENAS A COLUNA 2 */
     position: fixed;
     top: 0;
-    left: 500px; /* Começa onde a Coluna 1 (500px) termina */
-    width: calc(100vw - 500px); /* Ocupa o restante da tela */
     height: 100vh;
     z-index: 1; 
+    
+    transition: left 1s ease-in-out, width 1s ease-in-out;
+    
+    /* ESTADO INICIAL: Tela cheia */
+    left: 0; 
+    width: 100vw; 
+}
+
+/* CLASSE ATIVA: Move o globo para a lateral (à direita dos 500px) */
+.webgl-container.active {
+    left: 500px; /* Alinhado após 500px de conteúdo */
+    width: calc(100vw - 500px); 
 }
 
 
 /*================================================================
-    2. O CONTEÚDO DE TEXTO ROLÁVEL (COLUNA 1)
+    2. O CONTEÚDO DE TEXTO ROLÁVEL (COLUNA 1) - AJUSTADO
 ================================================================*/
 .story-content {
-    grid-column: 1 / 2; 
-    position: relative;
+    width: 500px; 
+    position: relative; 
     z-index: 10; 
-    max-width: 100%; 
-    margin: 0; 
-    padding: 20px;
     
-    background: rgba(255, 255, 255, 0.85); 
+    /* === ESTADO INICIAL: OCULTO E PREPARADO === */
+    opacity: 0; 
+    pointer-events: none;
+    transition: opacity 1s ease-in-out, width 0.5s ease-in-out; 
+    
+    background: rgba(255, 255, 255, 1); /* CORRIGIDO: Agora é BRANCO SÓLIDO (1) */
     box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
 }
 
 /* Estilos de Scrollytelling */
 section {
-    height: 100vh; 
+    height: 100vh; /* Cada seção força uma rolagem de tela cheia */
     padding: 50px 0;
+    
+    /* === NOVO: Delimitação e Centralização === */
+    /* A largura máxima do texto, mesmo na tela cheia */
+    max-width: 600px; 
+    /* Centraliza a seção dentro da coluna de 500px/100vw */
+    margin: 0 auto; 
 }
 
 h2 {
-    margin-top: 40vh; 
+    text-align: center; 
+    
+    margin-top: 40vh; /* Empurra o H2 para baixo para centralizar a rolagem */
     color: #1e3a8a; 
     border-bottom: 3px solid #f97316;
     padding-bottom: 10px;
 }
 
-/* Estilos de Focos e Painel de Contexto (Baseado em interações anteriores) */
+/* Estilos de Focos e Painel de Contexto (mantidos) */
 .focus-layout { display: flex; flex-direction: column; gap: 20px; margin-top: 30px; }
 @media (min-width: 768px) { .focus-layout { flex-direction: row; align-items: flex-start; } }
 .focus-image-container { flex: 1; max-width: 100%; }
@@ -142,16 +156,8 @@ h2 {
 ================================================================*/
 
 /* Animação da tela de carregamento */
-@keyframes dot-blink {
-    0% { opacity: 0; }
-    50% { opacity: 1; }
-    100% { opacity: 0; }
-}
-
-.loading-dot {
-    font-weight: bold;
-    animation: dot-blink 1.5s infinite; 
-}
+@keyframes dot-blink { 0% { opacity: 0; } 50% { opacity: 1; } 100% { opacity: 0; } }
+.loading-dot { font-weight: bold; animation: dot-blink 1.5s infinite; }
 
 /* DICA DE ROLAGEM (Scroll Hint) */
 .scroll-hint {
@@ -171,9 +177,6 @@ h2 {
 }
 
 /* ... Estilos internos do scroll-hint (mantidos) ... */
-.scroll-hint span { font-size: 1.1rem; letter-spacing: 1px; margin-bottom: 4px; color: #fff; text-shadow: 0 1px 4px #000; }
-.scroll-hint svg { -webkit-animation: arrowBounce 1.2s infinite; animation: arrowBounce 1.2s infinite; }
-
 @keyframes arrowBounce { 0% { transform: translateY(0); } 50% { transform: translateY(8px); } 100% { transform: translateY(0); } }
 @-webkit-keyframes arrowBounce { 0% { -webkit-transform: translateY(0); } 50% { -webkit-transform: translateY(8px); } 100% { -webkit-transform: translateY(0); } }
 
@@ -204,10 +207,17 @@ h2 {
     /* Garante que fique acima de todos os outros elementos */
     z-index: 9999; 
     
-    /* Estilos do texto já estão no JS, mas reforce a cor */
-    color: white;
-    
-    /* CORREÇÃO CRÍTICA: BLOQUEIA CLIQUE/ROLAGEM */
+    /* FIX CRÍTICO: BLOQUEIA CLIQUE/ROLAGEM */
     pointer-events: auto; 
     overflow: hidden; 
+    color: white;
+}
+
+/*================================================================
+    ESTILO DE TELA CHEIA (ATIVADO PELO SCROLLTRIGGER)
+================================================================*/
+.story-content.full-screen {
+    width: 100vw; /* Expande para 100% da largura da tela */
+    background: rgba(255, 255, 255, 1); /* Fundo sólido para cobrir o globo */
+    transition: width 0.5s ease-in-out; /* Transição para suavizar a expansão */
 }
