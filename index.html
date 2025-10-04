@@ -2,35 +2,50 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>EchoSpace</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EchoSpace</title>
 
-  <link rel="icon" type="image/x-icon" href="assets/img/space_orange@.png" />
-  <link rel="stylesheet" href="style.css" />
+    <link rel="icon" type="image/x-icon" href="assets/img/space_orange@.png" />
+    <link rel="stylesheet" href="style.css" />
 
-  <!-- controle de órbita -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
-</head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+    
+    </head>
 
 <body>
-  <!-- Botão para focar na América do Sul -->
+    
+    <div id="webgl-container" class="webgl-container"></div>
+    
+    <div class="startButton">
+        <button id="startButton">Start Exploration</button>
+    </div>
 
-  <div class="startButton">
-    <button id="startButton">Start Exploration</button>
-  </div>
+    <div class="countryButtons">
+        <button id="buttonBrazil">Brazil</button>
+        <button id="buttonBolivia">Bolivia</button>
+        <button id="buttonChile">Chile</button>
+    </div>
+    
+    <div id="fixed-context-panel" class="fixed-context-panel">
+        </div>
 
-  <div class="countryButtons">
-    <button id="buttonBrazil">Brazil</button>
-    <button id="buttonBolivia">Bolivia</button>
-    <button id="buttonChile">Chile</button>
-  </div>
 
-  <script src="src/animation.js"></script>
-  <script src="src/showFire.js"></script>
-  <script type="module" src="src/buttons.js"></script>
+    <div class="story-content">
+        
+        <section id="america-sul"> <h2>Introdução</h2> </section>
+        <section id="brasil"> <h2>Zoom Brasil</h2> </section>
+        <section id="queimadas"> <h2>Dados Queimadas</h2> </section>
+        <section id="focos-queimadas"> <h2>Focos de Queimadas</h2> </section>
+        <section id="antes-depois"> <h2>Antes & Depois</h2> </section>
+        
+    </div>
+
+    <script src="src/animation.js"></script>
+    <script src="src/showFire.js"></script>
+    <script type="module" src="src/buttons.js"></script>
 </body>
 
 </html>

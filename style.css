@@ -1,12 +1,88 @@
-body {
-    margin: 0;
+/*================================================================
+    LAYOUT PRINCIPAL (GRID) E ESTILOS BÁSICOS
+================================================================*/
+body { 
+    /* ATIVA O GRID PARA DUAS COLUNAS */
+    display: grid;
+    grid-template-columns: 500px 1fr;
+    min-height: 100vh;
+    
+    margin: 0; 
     padding: 0;
-    background: #000;
-} 
+    background-color: black;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #333; 
+    line-height: 1.6;
+}
+
 canvas {
     display: block;
 }
 
+/*================================================================
+    CORREÇÃO CRÍTICA PARA PAINÉIS FIXOS (Z-INDEX)
+================================================================*/
+/* Força o painel lateral dinâmico (criado em panel.js) a ficar acima de TUDO */
+#sidePanel {
+    z-index: 1000 !important; 
+}
+
+
+/*================================================================
+    1. O CANVAS 3D (FUNDO FIXO)
+================================================================*/
+.webgl-container {
+    /* POSICIONADO PARA OCUPAR APENAS A COLUNA 2 */
+    position: fixed;
+    top: 0;
+    left: 500px; /* Começa onde a Coluna 1 (500px) termina */
+    width: calc(100vw - 500px); /* Ocupa o restante da tela */
+    height: 100vh;
+    z-index: 1; 
+}
+
+
+/*================================================================
+    2. O CONTEÚDO DE TEXTO ROLÁVEL (COLUNA 1)
+================================================================*/
+.story-content {
+    grid-column: 1 / 2; 
+    position: relative;
+    z-index: 10; 
+    max-width: 100%; 
+    margin: 0; 
+    padding: 20px;
+    
+    background: rgba(255, 255, 255, 0.85); 
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilos de Scrollytelling */
+section {
+    height: 100vh; 
+    padding: 50px 0;
+}
+
+h2 {
+    margin-top: 40vh; 
+    color: #1e3a8a; 
+    border-bottom: 3px solid #f97316;
+    padding-bottom: 10px;
+}
+
+/* Estilos de Focos e Painel de Contexto (Baseado em interações anteriores) */
+.focus-layout { display: flex; flex-direction: column; gap: 20px; margin-top: 30px; }
+@media (min-width: 768px) { .focus-layout { flex-direction: row; align-items: flex-start; } }
+.focus-image-container { flex: 1; max-width: 100%; }
+.focus-image-container img { width: 100%; height: auto; border-radius: 8px; }
+.focus-image-container .caption { font-size: 0.8em; color: #666; margin-top: 5px; }
+.focus-text { flex: 1; }
+
+/*================================================================
+    3. BOTÕES E CONTROLES
+================================================================*/
+
+/* START BUTTON */
 #startButton {
     display: none;
     position: absolute;
@@ -19,15 +95,53 @@ canvas {
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    z-index: 10;
+    z-index: 20; 
 }
 
 #startButton:hover {
     background-color: #d42f2f;
 }
 
-/* Animação da tela de carregamento */
+/* GRUPO DE BOTÕES DE PAÍSES */
+.countryButtons {
+    display: flex;
+    justify-content: space-between;
+    position: absolute;
+    bottom: 20px;
+    left: 250px; 
+    transform: translateX(-50%);
+    padding: 10px 20px;
+    z-index: 20;
+    width: 460px; 
+}
 
+/* Estilos de Botões Específicos */
+#buttonBrazil, #buttonBolivia, #buttonChile {
+    display: none;
+    font-size: 1rem;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    border: none;
+    color: white;
+    margin: 0 5px; 
+}
+
+#buttonBrazil { background-color: #009b3a; }
+#buttonBrazil:hover { background-color: #007a2e; }
+
+#buttonBolivia { background-color: #ebfc06; color: #333; } 
+#buttonBolivia:hover { background-color: #aef509; }
+
+#buttonChile { background-color: #009b3a; }
+#buttonChile:hover { background-color: #007a2e; }
+
+
+/*================================================================
+    4. ANIMAÇÕES
+================================================================*/
+
+/* Animação da tela de carregamento */
 @keyframes dot-blink {
     0% { opacity: 0; }
     50% { opacity: 1; }
@@ -36,93 +150,64 @@ canvas {
 
 .loading-dot {
     font-weight: bold;
-    /* Duração (1.5s), repetição infinita e a animação */
     animation: dot-blink 1.5s infinite; 
 }
 
-.countryButtons {
-    display: flex;
-    justify-content: space-between;
-    position: absolute;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    padding: 10px 20px;
-    z-index: 10;
-}
-
-#buttonBrazil {
-    display: none;
-    background-color: #009b3a;
-    font-size: 1rem;
-    border-radius: 5px;
-    padding: 10px 20px;
-    cursor: pointer;
-}
-
-#buttonBrazil:hover {
-    background-color: #007a2e;
-}
-
-#buttonBolivia {
-    display: none;
-    background-color: #ebfc06;
-    font-size: 1rem;
-    border-radius: 5px;
-    padding: 10px 20px;
-    cursor: pointer;
-}
-
-#buttonBolivia:hover {
-    background-color: #aef509;
-}
-
-#buttonChile {
-    display: none;
-    background-color: #009b3a;
-    font-size: 1rem;
-    border-radius: 5px;
-    padding: 10px 20px;
-    cursor: pointer;
-}
-
-#buttonChile:hover {
-    background-color: #007a2e;
-}
-
+/* DICA DE ROLAGEM (Scroll Hint) */
 .scroll-hint {
     position: absolute;
-    left: 50%;
+    left: 250px; 
     bottom: 65px;
     transform: translateX(-50%);
     display: flex;
     flex-direction: column;
     align-items: center;
     opacity: 0.7;
+    
+    -webkit-animation: scrollFade 2s infinite;
     animation: scrollFade 2s infinite;
     pointer-events: none;
     z-index: 20;
 }
 
-.scroll-hint span {
-    font-size: 1.1rem;
-    letter-spacing: 1px;
-    margin-bottom: 4px;
-    color: #fff;
-    text-shadow: 0 1px 4px #000;
-}
+/* ... Estilos internos do scroll-hint (mantidos) ... */
+.scroll-hint span { font-size: 1.1rem; letter-spacing: 1px; margin-bottom: 4px; color: #fff; text-shadow: 0 1px 4px #000; }
+.scroll-hint svg { -webkit-animation: arrowBounce 1.2s infinite; animation: arrowBounce 1.2s infinite; }
 
-.scroll-hint svg {
-    animation: arrowBounce 1.2s infinite;
-}
+@keyframes arrowBounce { 0% { transform: translateY(0); } 50% { transform: translateY(8px); } 100% { transform: translateY(0); } }
+@-webkit-keyframes arrowBounce { 0% { -webkit-transform: translateY(0); } 50% { -webkit-transform: translateY(8px); } 100% { -webkit-transform: translateY(0); } }
 
-@keyframes arrowBounce {
-    0%   { transform: translateY(0); }
-    50%  { transform: translateY(8px); }
-    100% { transform: translateY(0); }
-}
+@keyframes scrollFade { 0%, 100% { opacity: 0.7; } 50% { opacity: 1; } }
+@-webkit-keyframes scrollFade { 0%, 100% { opacity: 0.7; } 50% { opacity: 1; } }
 
-@keyframes scrollFade {
-    0%, 100% { opacity: 0.7; }
-    50%      { opacity: 1; }
+
+/*================================================================
+    CORREÇÃO CRÍTICA: ESTILOS PARA A TELA DE CARREGAMENTO (LOADING DIV)
+================================================================*/
+
+#animated-loading {
+    /* Garante que cubra a tela inteira */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    
+    /* Fundo preto (para esconder a renderização parcial do Three.js) */
+    background-color: black;
+    
+    /* Centraliza o texto "Loading" e os pontos animados */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    /* Garante que fique acima de todos os outros elementos */
+    z-index: 9999; 
+    
+    /* Estilos do texto já estão no JS, mas reforce a cor */
+    color: white;
+    
+    /* CORREÇÃO CRÍTICA: BLOQUEIA CLIQUE/ROLAGEM */
+    pointer-events: auto; 
+    overflow: hidden; 
 }
