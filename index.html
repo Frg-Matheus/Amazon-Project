@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EchoSpace</title>
+
+    <link rel="icon" type="image/x-icon" href="assets/img/space_orange@.png" />
+    <link rel="stylesheet" href="style.css" />
+
+    <!-- suporte glb -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+
+    <!-- controle de órbita -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+  </head>
+
+  <body>
+    <!-- Botão para focar na América do Sul -->
+
+    <button id="startButton">Start</button>
+
+    <button class="hidden" id="brazilButton" onclick="openBrazil(this)">Brazil</button>
+
+    <div>
+      oi
+    </div>
+
+    <script src="src/animation.js"></script>
+    <script src="src/mundi.js"></script>
+  </body>
+</html>
